@@ -12,11 +12,6 @@ int CardNum = 2;
 
 
 enum {
-	Disable,
-	Enable
-};
-
-enum {
 	Hit,
 	Stay,
 	HitStayMAX
@@ -29,7 +24,7 @@ char HS[][16] = {
 
 int HitORStand() {
 	int HSCursor = Hit;
-	int EnterFlag = Disable;
+	int EnterFlag = FALSE;
 	while (1) {
 		printf("\r");
 		for (int i = 0; i < HitStayMAX; i++) {
