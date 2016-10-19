@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
+#include "MT.h"
+
 
 int Pcard[21];
 int Dcard[21];
@@ -65,10 +67,10 @@ int HitORStand() {
 
 int main()
 {
-	srand((unsigned)time(NULL));
+	init_genrand((unsigned)time(NULL));
 	for (int i = 0; i < 21; i++) {
-		Pcard[i] = (rand() % 13) + 1;
-		Dcard[i] = (rand() % 13) + 1;
+		Pcard[i] = (genrand_int32() % 13) + 1;
+		Dcard[i] = (genrand_int32() % 13) + 1;
 		if (Pcard[i] >= 11) Pcard[i] = 10;
 		if (Dcard[i] >= 11) Dcard[i] = 10;
 	};
