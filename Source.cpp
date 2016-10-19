@@ -5,11 +5,21 @@
 #include <conio.h>
 #include "MT.h"
 
+typedef struct {
+	int number;
+	int cardSuit;
+}Card;
 
-int Pcard[21];
-int Dcard[21];
+Card Pcard[21];
+Card Dcard[21];
 int CardNum = 2;
 
+enum {
+	TYPE_SPADE,
+	TYPE_CLUB,
+	TYPE_DIAMOND,
+	TYPE_HEART
+};
 
 enum {
 	Hit,
@@ -19,7 +29,7 @@ enum {
 
 char HS[][16] = {
 	"‚g‚h‚s",
-	"‚r‚s‚`‚m‚c",
+	"‚r‚s‚`‚x",
 };
 
 int HitORStand() {
@@ -64,27 +74,29 @@ int main()
 {
 	init_genrand((unsigned)time(NULL));
 	for (int i = 0; i < 21; i++) {
-		Pcard[i] = (genrand_int32() % 13) + 1;
-		Dcard[i] = (genrand_int32() % 13) + 1;
-		if (Pcard[i] >= 11) Pcard[i] = 10;
-		if (Dcard[i] >= 11) Dcard[i] = 10;
+		Pcard[i].number = (genrand_int32() % 13) + 1;
+		Dcard[i].number = (genrand_int32() % 13) + 1;
+		if (Pcard[i].number >= 11) Pcard[i].number = 10;
+		if (Dcard[i].number >= 11) Dcard[i].number = 10;
+		Pcard[i].cardSuit = genrand_int32() % 4;
+		Dcard[i].cardSuit = genrand_int32() % 4;
 	};
 	while (1) {
 		int Cardsum = 0;
 		system("cls");
 		printf("Player cardc\n");
 		for (int i = 0; i < CardNum; i++) {
-			Cardsum += Pcard[i];
-			printf(" [%d]", Pcard[i]);
+			Cardsum += Pcard[i].number;
+			printf(" [%d]", Pcard[i].number);
 		}
 		if (Cardsum == 21) printf("\n 21 # NICE BLACK JACK ! #");
 		else if (Cardsum < 11) printf("\n %d or %d", Cardsum, Cardsum + 10);
 		else if (Cardsum > 21) printf("\n %d@# BURST #", Cardsum);
 		else printf("\n %d ", Cardsum);
 		printf("\n\nDealer cardc\n");
-		printf("[%d] [–]\n", Dcard[0]);
+		printf("[%d] [–]\n", Dcard[0].number);
 		getchar();
-		printf("Hit? Stand?\n");
+		printf("Hit ? Stay ?\n");
 		int HitStand = HitORStand();
 		if (HitStand == 0) {
 			printf("\nHIT");
